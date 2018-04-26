@@ -37,7 +37,7 @@ var renderPosts=function(){
       );
       bind_remove_post_button(i);//bind all existing buttons!!!
       bind_remove_comment_button();
-      bind_p();
+     // bind_p();
     }
 }
 
@@ -65,11 +65,12 @@ var bind_remove_comment_button = function (){
   $('.remove_comment').click(function (){
    // $('this').closest('form').remove();
     $('#comment').remove();
-
   });
-  }
+}
   
-/*
+
+
+/* extenion 3
   var bind_p = function (){
     $('p').off();
     $('p').click(function(){
@@ -77,6 +78,13 @@ var bind_remove_comment_button = function (){
     });
   }
 */
+
+
+
+
+
+
+
 
 // $('this').closest('p').data().id;
 
