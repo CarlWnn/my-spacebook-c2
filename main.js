@@ -34,7 +34,7 @@ var renderPosts=function(){
    $('.posts').empty();
    //$('.posts').find('.post').remove();
 
-   var comment_container=  '<div class="comment-div">' 
+   var comment_container =  '<div class="comment-container">' 
    + '<ul class="comment-list"> </ul>'
    + '<input type="text" placeholder="comment"> '
    + '<button type="button" class=" btn btn-primary post-comment"> Post Comment </button>'
@@ -45,6 +45,7 @@ var renderPosts=function(){
           '<li class= "post"> '
           + posts[i].text 
           + '<button type="button" class="btn btn-primary remove-post">Remove Post</button> '
+          + '<a href="#" class="toggle-comments">Toggle Comments </a> ' 
           + comment_container
           + '</li>' );
     }
@@ -109,26 +110,10 @@ $('.posts').on('click', '.delete-comment', function(){
   $(this).closest('li').remove();
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$('.posts').on('click', '.toggle-comments', function () {
+  var $clickedPost = $(this).closest('.post');
+  $clickedPost.find('.comment-container').toggleClass('show');
+});
 
 
 

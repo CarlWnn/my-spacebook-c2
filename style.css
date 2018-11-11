@@ -12,3 +12,16 @@
     margin: 10px;
 
 }
+
+.comment-container {
+    display: none;
+}
+
+ .toggle-comments{
+    display : block;
+} 
+
+.show{
+    display: block;
+}
+
