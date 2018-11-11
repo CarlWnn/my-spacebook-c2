@@ -1,43 +1,31 @@
 var posts=[]; 
-var uniq_id=0; 
 
-// create new post object and add it to array
+//  add new post object to array
 var addPost= function(input){
-  var newpost = {
-    text:input,
-    id: uniq_id
-  }
-  posts.push(newpost);
-  uniq_id ++;
-  
+  posts.push({text:input});
 }
 
 //log the array
 var renderPosts=function(){
    
-   // $('.posts p').remove(); // or
-   $('.posts').find('p').remove();
+   $('.posts').empty();
+   //$('.posts').find('.post').remove();
+
+   var comment_container=  '<div class="comment-div">' 
+   + '<ul class="comment-list"> </ul>'
+   + '<input type="text" placeholder="comment"> '
+   + '<button type="button" class="remove_comment"> Remove comment </button>'
+   + '</div>' 
 
     for(var i=0; i<posts.length; i++){
       $('.posts').append(
-          '<p class=post data-id="' 
-          + posts[i].id
-          + ' "> '
+          '<li class= "post"> '
           + posts[i].text 
           + '<button type="button" class="btn btn-primary remove-post">Remove Post</button> '
-          // + comment_container
-          + '</p>'
-          + '</br>'
-      );
-
-
-      var comment_container=  '<form id="comment">  <input type="text" placeholder="name">'
-      + '</br> <input type="text" placeholder="comment"> '
-      + '<button type="button" class="remove_comment">Remove comment</button> '
-      + '</form>' 
-
-
+          + comment_container
+          + '</li>' );
     }
+
 }
 
 
@@ -46,19 +34,21 @@ var renderPosts=function(){
 
 
 $('.add-post').click(function () {
-  var user_input = $('#post-name').val()
-  addPost(user_input)
+  var user_input = $('#post-name').val();
+  addPost(user_input);
   //$('.posts').append('<li>'+ user_input + '<button> remove post </button> </li>' )
-  renderPosts()
+  renderPosts();
 })
 
 //remove post 
 $('.posts').on( 'click', '.remove-post', function(){
     //  var index= $(this).closest('p').data().id;
-    var index= $(this).closest('p').index();
+    var index= $(this).closest('li').index();
     posts.splice(index,1)
-    $(this).closest('p').remove();
+    $(this).closest('li').remove();
 });
+
+
 
 
 
