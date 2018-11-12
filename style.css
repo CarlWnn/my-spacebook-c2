@@ -1,0 +1,27 @@
+.remove-post {
+    background-color:#c54040;
+    margin: 10px;
+}
+
+.post-comment{
+    background-color: #337ab7;
+}
+
+.delete-comment{
+    background-color:#c54040;
+    margin: 10px;
+
+}
+
+.comment-container {
+    display: none;
+}
+
+ .toggle-comments{
+    display : block;
+} 
+
+.show{
+    display: block;
+}
+

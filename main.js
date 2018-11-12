@@ -1,73 +1,121 @@
-var posts=[]; 
-var uniq_id=0; 
-
-//create new post object and add it to array
-var addPost= function(input){
-  var newpost = {
-    text:input,
-    id: uniq_id
+//var posts=[]; 
+var posts = [
+  {
+    text: "Hello world 1", comments: [
+      "Man, this is a comment 1!" ,
+       "Man, this is a comment 2!" ,
+      "Man, this is a comment 3!" 
+    ]
+  },
+  {
+    text: "Hello world 2", comments: [
+      "Man, this is a comment 4!" ,
+       "Man, this is a comment 5!" ,
+      "Man, this is a comment 6!" 
+    ]
+  },
+  {
+    text: "Hello world 3", comments: [
+      "Man, this is a comment 7!" ,
+       "Man, this is a comment 8!" ,
+      "Man, this is a comment 9!" 
+    ]
   }
-  posts.push(newpost);
-  uniq_id ++;
-  
+];
+
+//  add new post object to array
+var addPost= function(input){
+  posts.push({text:input, comments:[]});
 }
 
 //log the array
 var renderPosts=function(){
    
-   // $('.posts p').remove();// or
-   $('.posts').find('p').remove();
-   $('.posts').find('form').remove();
+   $('.posts').empty();
+   //$('.posts').find('.post').remove();
 
+   var comment_container =  '<div class="comment-container">' 
+   + '<ul class="comment-list"> </ul>'
+   + '<input type="text" placeholder="comment"> '
+   + '<button type="button" class=" btn btn-primary post-comment"> Post Comment </button>'
+   + '</div>' 
 
     for(var i=0; i<posts.length; i++){
       $('.posts').append(
-          '<p class=post data-id="' 
-          + posts[i].id
-          + ' "> '
+          '<li class= "post"> '
           + posts[i].text 
-          + '<button type="button" class="remove_post">Remove Post</button> '
-          + '<form id="comment">  <input type="text" placeholder="name">'
-          + '</br> <input type="text" placeholder="comment"> '
-          + '<button type="button" class="remove_comment">Remove comment</button> '
-          + '</form>' 
-          + '</p>'
-          + '</br>'
-         
-      );
-      bind_remove_post_button(i);//bind all existing buttons!!!
-      bind_remove_comment_button();
-     // bind_p();
+          + '<button type="button" class="btn btn-primary remove-post">Remove Post</button> '
+          + '<a href="#" class="toggle-comments">Toggle Comments </a> ' 
+          + comment_container
+          + '</li>' );
     }
+
 }
 
-var post_a_post =function (){
-   var  text= $('#post-name').val();
-   addPost(text);
-   renderPosts();
-   $('input:text').val(''); //clear the input form 
+var renderComments = function() {
+  for( var i=0; i< posts.length; i++){
+  var $post=$('.posts').find('.post').eq(i);
+
+    for(var j=0; j<posts[i].comments.length; j++){
+      $post.find('.comment-list').append(
+      '<li>'+ posts[i].comments[j] + 
+      '<button class="btn btn-primary delete-comment"> delete comment </button> </li>');
+    }
+  }
 }
 
-$('.add-post').click(post_a_post);
+//console.log(posts)
+renderPosts();
+renderComments();
 
 
-var bind_remove_post_button = function (index){
-  $('.remove_post').off();
-  $('.remove_post').click(function (){
-    posts.splice(index, 1);
-    renderPosts();
-  });
-  
-}
-   
-var bind_remove_comment_button = function (){
-  $('.remove_comment').off();
-  $('.remove_comment').click(function (){
-   // $('this').closest('form').remove();
-    $('#comment').remove();
-  });
-}
-  
+/********  event binding   ***************/
+
+
+$('.add-post').click(function () {
+  var user_input = $('#post-name').val();
+  addPost(user_input);
+  //$('.posts').append('<li>'+ user_input + '<button> remove post </button> </li>' )
+  renderPosts();
+  renderComments();
+
+})
+
+//remove post 
+$('.posts').on( 'click', '.remove-post', function(){
+    //  var index= $(this).closest('p').data().id;
+    var index= $(this).closest('li').index();
+    posts.splice(index,1)
+    $(this).closest('li').remove();
+   //renderPosts();
+   //renderComments();
+});
+
+//post comment
+$('.posts').on('click', '.post-comment', function(){
+  var comment= $(this).siblings('input').val();
+  var index= $(this).closest('li').index();
+  posts[index].comments.push(comment);
+  //console.log(posts)
+  $('.comment-list').append( '<li class="comment">' + comment +
+   '<button class="btn btn-primary delete-comment"> delete comment </button> </li>');
+  //renderComments();
+} )
+
+//delete comment
+$('.posts').on('click', '.delete-comment', function(){
+  var index_com= $(this).closest('.comment').index();
+  var index_post= $(this).closest('.post').index();
+  posts[index_post].comments.splice(index_com,1)
+  $(this).closest('li').remove();
+})
+
+$('.posts').on('click', '.toggle-comments', function () {
+  var $clickedPost = $(this).closest('.post');
+  $clickedPost.find('.comment-container').toggleClass('show');
+});
+
+
 
 
 /* extenion 3
@@ -86,5 +134,4 @@ var bind_remove_comment_button = function (){
 
 
 
-// $('this').closest('p').data().id;
 
