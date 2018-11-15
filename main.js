@@ -43,7 +43,7 @@ var renderPosts=function(){
     for(var i=0; i<posts.length; i++){
       $('.posts').append(
           '<li class= "post"> '
-          + posts[i].text 
+          + '<a href="#" class="post-text">' + posts[i].text + '</a>'
           + '<button type="button" class="btn btn-primary remove-post">Remove Post</button> '
           + '<a href="#" class="toggle-comments">Toggle Comments </a> ' 
           + comment_container
@@ -58,7 +58,7 @@ var renderComments = function() {
 
     for(var j=0; j<posts[i].comments.length; j++){
       $post.find('.comment-list').append(
-      '<li>'+ posts[i].comments[j] + 
+      '<li >'+ posts[i].comments[j] + 
       '<button class="btn btn-primary delete-comment"> delete comment </button> </li>');
     }
   }
@@ -110,23 +110,23 @@ $('.posts').on('click', '.delete-comment', function(){
   $(this).closest('li').remove();
 })
 
+//toggle comment
 $('.posts').on('click', '.toggle-comments', function () {
   var $clickedPost = $(this).closest('.post');
   $clickedPost.find('.comment-container').toggleClass('show');
 });
 
+//show post in new tab 
+$('.posts').on('click', '.post-text', function(){
+   var w = window.open();
+    var post_text = $(this).html();
 
-
-
-/* extenion 3
-  var bind_p = function (){
-    $('p').off();
-    $('p').click(function(){
-      $("this").attr(console.log($, '_blank');
-    });
-  }
-*/
-
+    var $commentList= $(this).siblings('.comment-container').find('.comment-list')
+    var comments= $commentList.html();
+   // $(w.document.body).html(post_text);
+    w.document.write(post_text);
+    w.document.write(comments);
+})
 
 
 
